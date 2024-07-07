@@ -3,4 +3,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="onbaring_header">Define\nyourself in\nyour unique\nway.</string>
+    <string name="register_terms">By signing up you agree to our <b><u><font face="@font/general_sans_500">Terms</font></u></b>, <b><u><font face="@font/general_sans_500">Privacy Policy</font></u></b>,\nand <b><u><font face="@font/general_sans_500">Cookie Use</font></u></b></string>
+
+    <string name="register_navigateLogin">Already have an account? <u><b><font face="@font/general_sans_500.otf">Log In</font></b></u></string>
+    <string name="forgotPassword">Forgot your password? <u><b>Reset your password</b></u></string>
+    <string name="Join">Don’t have an account? <b><u>Join</u></b></string>
 </resources>
