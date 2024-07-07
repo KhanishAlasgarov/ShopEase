@@ -8,6 +8,11 @@ android {
     namespace = "com.khanish.shopease"
     compileSdk = 34
 
+    buildFeatures{
+        viewBinding=true;
+        dataBinding=true
+    }
+
     defaultConfig {
         applicationId = "com.khanish.shopease"
         minSdk = 24
