@@ -60,4 +60,7 @@ dependencies {
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)
+
+    // Lottie
+    implementation(libs.lottie)
 }
