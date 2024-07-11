@@ -2,6 +2,10 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     id("androidx.navigation.safeargs.kotlin")
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
+    alias(libs.plugins.google.gms.google.services)
+    id("kotlin-parcelize")
 }
 
 android {
@@ -10,7 +14,7 @@ android {
 
     buildFeatures{
         viewBinding=true;
-        dataBinding=true
+        dataBinding=true;
     }
 
     defaultConfig {
@@ -48,6 +52,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.firebase.auth)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -63,4 +68,25 @@ dependencies {
 
     // Lottie
     implementation(libs.lottie)
+
+
+    // MVVM
+
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+
+    // Hilt
+
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+
+    // Fancy Toast
+
+    implementation(libs.fancytoast)
+
+}
+
+kapt {
+    correctErrorTypes = true
 }

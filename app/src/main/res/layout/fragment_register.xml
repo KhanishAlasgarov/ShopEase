@@ -190,12 +190,12 @@
         app:layout_constraintTop_toBottomOf="@+id/inputPasswordContainer" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/button"
+        android:id="@+id/buttonRegister"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:backgroundTint="@color/darkGrey_1A"
-        android:enabled="false"
+
         android:fontFamily="@font/general_sans_500"
         android:paddingVertical="16dp"
         android:text="Create an Account"
@@ -218,7 +218,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonRegister" />
 
     <View
         android:id="@+id/divider"
@@ -290,7 +290,7 @@
         app:layout_constraintTop_toBottomOf="@+id/button2" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/tvNavigateToLoginFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="22dp"
