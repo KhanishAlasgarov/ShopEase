@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "955472168481",
-    "project_id": "shopease-95c89",
-    "storage_bucket": "shopease-95c89.appspot.com"
+    "project_number": "64637743473",
+    "project_id": "ecommerce-24bac",
+    "storage_bucket": "ecommerce-24bac.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:955472168481:android:9b5fe8b0ef9db155624560",
+        "mobilesdk_app_id": "1:64637743473:android:b23d4081a984316ea9c6d0",
         "android_client_info": {
           "package_name": "com.khanish.shopease"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCQ2fAdd2IBAeYXXskmF97YnMXWCio2Zuk"
+          "current_key": "AIzaSyA4FF-IH-XhHnLShwkDZ8V_0_Joj_x7fWY"
         }
       ],
       "services": {

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.khanish.shopease.R
 import com.khanish.shopease.base.BaseFragment
@@ -58,8 +59,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
     private fun observeData() {
 
         with(viewModel) {
+            val dialog = Helper.setSignUpDialog(layoutInflater, requireContext())
             loading.observe(viewLifecycleOwner) {
-                val dialog = Helper.setSignUpDialog(layoutInflater, requireContext())
                 if (it) {
                     dialog.show()
                 } else {
@@ -68,7 +69,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
             }
             authModel.observe(viewLifecycleOwner) {
                 if (it.isSuccess) {
-
+                    findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToMainFragment())
                 } else {
                     FancyToast.makeText(
                         requireContext(),

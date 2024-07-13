@@ -1,6 +1,7 @@
 [versions]
 agp = "8.5.0"
 fancytoast = "2.0.2"
+glide = "4.16.0"
 hiltAndroid = "2.48"
 hiltAndroidCompiler = "2.47"
 kotlin = "1.9.0"
@@ -18,6 +19,11 @@ constraintlayout = "2.1.4"
 navigationFragmentKtx = "2.7.7"
 googleGmsGoogleServices = "4.4.2"
 firebaseAuth = "23.0.0"
+firebaseDatabase = "21.0.0"
+media3Common = "1.3.1"
+firebaseStorage = "21.0.0"
+firebaseFirestore = "25.0.0"
+shimmer = "0.5.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -27,6 +33,7 @@ androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-view
 androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
 androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationFragmentKtx" }
 fancytoast = { module = "io.github.shashank02051997:FancyToast", version.ref = "fancytoast" }
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidCompiler" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -39,6 +46,11 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
+firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
+androidx-media3-common = { group = "androidx.media3", name = "media3-common", version.ref = "media3Common" }
+firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
+firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
+shimmer = { module = "com.facebook.shimmer:shimmer", version.ref = "shimmer" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

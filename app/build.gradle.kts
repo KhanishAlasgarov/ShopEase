@@ -12,9 +12,9 @@ android {
     namespace = "com.khanish.shopease"
     compileSdk = 34
 
-    buildFeatures{
-        viewBinding=true;
-        dataBinding=true;
+    buildFeatures {
+        viewBinding = true;
+        dataBinding = true;
     }
 
     defaultConfig {
@@ -53,10 +53,13 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.firebase.auth)
+    implementation(libs.firebase.database)
+    implementation(libs.androidx.media3.common)
+    implementation(libs.firebase.storage)
+    implementation(libs.firebase.firestore)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
 
 
     // Navigation
@@ -71,19 +74,24 @@ dependencies {
 
 
     // MVVM
-
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
 
     // Hilt
-
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
 
     // Fancy Toast
-
     implementation(libs.fancytoast)
+
+    // Glide
+    implementation(libs.glide)
+
+
+    // Shimmer
+    implementation(libs.shimmer)
+
 
 }
 
