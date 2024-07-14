@@ -19,9 +19,6 @@
         android:background="@color/transparent">
 
 
-
-         
-
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/imageContainer"
             android:layout_width="161dp"
@@ -40,6 +37,26 @@
                 android:layout_height="match_parent"
                 android:scaleType="matrix"
                 tools:srcCompat="@tools:sample/avatars" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/addToFavorite"
+                android:layout_gravity="end"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
+                app:strokeWidth="0dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="8dp"
+
+                >
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_margin="8dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/heart_icon_product" />
+            </com.google.android.material.card.MaterialCardView>
         </com.google.android.material.card.MaterialCardView>
 
         <TextView

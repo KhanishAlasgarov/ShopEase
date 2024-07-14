@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import java.util.Collections
 import javax.inject.Inject
 
 
@@ -61,6 +62,7 @@ class MainViewModel @Inject constructor(
             when (response) {
                 is NetworkResource.Success -> {
                     response.data?.let {
+
                         _categories.value = it
                     }
                 }
@@ -86,6 +88,7 @@ class MainViewModel @Inject constructor(
             when (networkResource) {
                 is NetworkResource.Success -> {
                     networkResource.data?.let {
+                        Collections.shuffle(it)
                         _products.value = it
                     }
                 }
