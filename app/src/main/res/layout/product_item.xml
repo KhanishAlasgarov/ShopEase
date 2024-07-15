@@ -8,6 +8,8 @@
         <variable
             name="product"
             type="com.khanish.shopease.model.Product" />
+
+
     </data>
 
 
@@ -39,23 +41,25 @@
                 tools:srcCompat="@tools:sample/avatars" />
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/addToFavorite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/addToFavorite"
                 android:layout_gravity="end"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="12dp"
-                app:strokeWidth="0dp"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="8dp"
+                app:strokeWidth="0dp"
 
                 >
 
                 <ImageView
+                    favoriteImage="@{product.favorite}"
                     android:layout_width="18dp"
-                    android:layout_margin="8dp"
                     android:layout_height="18dp"
-                    android:src="@drawable/heart_icon_product" />
+                    android:layout_margin="8dp"
+                     />
+
             </com.google.android.material.card.MaterialCardView>
         </com.google.android.material.card.MaterialCardView>
 

@@ -11,8 +11,10 @@ import com.google.firebase.database.FirebaseDatabase
 
 import com.google.firebase.database.getValue
 import com.google.firebase.firestore.firestore
+import com.khanish.shopease.local.ShopEaseDao
 import com.khanish.shopease.model.Category
 import com.khanish.shopease.model.Product
+import com.khanish.shopease.model.ProductEntity
 import com.khanish.shopease.remote.NetworkResource
 import com.khanish.shopease.repository.CategoryRepository
 import com.khanish.shopease.repository.ProductRepository
@@ -30,7 +32,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val repository: CategoryRepository,
-    private val productRepository: ProductRepository
+    private val productRepository: ProductRepository,
+    private val db: ShopEaseDao
 ) :
     ViewModel() {
 
@@ -78,6 +81,9 @@ class MainViewModel @Inject constructor(
 
     private suspend fun fetchProducts(categoryId: Int?) {
 
+
+        val favoriteProductIds = db.getAllProduct().map { it.id }.toSet()
+        Log.e("Favorite Products", db.getAllProduct().toString())
         val response = if (categoryId == null || categoryId == 0) {
             productRepository.getAllProducts()
         } else {
@@ -88,7 +94,9 @@ class MainViewModel @Inject constructor(
             when (networkResource) {
                 is NetworkResource.Success -> {
                     networkResource.data?.let {
-                        Collections.shuffle(it)
+                        it.forEach { product ->
+                            product.favorite = product.id in favoriteProductIds
+                        }
                         _products.value = it
                     }
                 }
@@ -102,6 +110,26 @@ class MainViewModel @Inject constructor(
         }
 
 
+    }
+
+    fun addProductToDb(product: Product, callback: (Boolean) -> Unit) {
+
+        viewModelScope.launch(Dispatchers.IO) {
+            val data = db.getProductById(product.id)
+            val favorite: Boolean
+            if (data == null) {
+                db.addProduct(ProductEntity(product.id))
+                favorite = true
+            } else {
+                db.deleteProduct(data)
+                favorite = false
+            }
+            Log.e("Favorite Products", db.getAllProduct().toString())
+
+            withContext(Dispatchers.Main) {
+                callback(favorite)
+            }
+        }
     }
 
 

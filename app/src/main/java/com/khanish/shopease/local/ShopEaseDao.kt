@@ -5,15 +5,19 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.khanish.shopease.model.Product
+import com.khanish.shopease.model.ProductEntity
 
 @Dao
 interface ShopEaseDao {
     @Insert
-    suspend fun addProduct(vararg product: Product): List<Long>
+    suspend fun addProduct(vararg product: ProductEntity): List<Long>
 
     @Query("Select * from product_table")
-    suspend fun getAllProduct(): List<Product>
+    suspend fun getAllProduct(): List<ProductEntity>
+
+    @Query("Select * from product_table where id=:id")
+    suspend fun getProductById(id: Int): ProductEntity?
 
     @Delete
-    suspend fun deleteProduct(product: Product)
+    suspend fun deleteProduct(product: ProductEntity)
 }

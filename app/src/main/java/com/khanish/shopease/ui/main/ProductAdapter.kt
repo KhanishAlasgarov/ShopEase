@@ -6,11 +6,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.khanish.shopease.databinding.ProductItemBinding
 import com.khanish.shopease.model.Product
 
-class ProductAdapter : RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
+class ProductAdapter :
+    RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
 
     private val products = arrayListOf<Product>()
+    lateinit var addToFavorite: (product: Product, callBack: (Boolean) -> Unit) -> Unit
 
-    inner class ViewHolder(val productItemBinding: ProductItemBinding) :
+    inner
+
+    class ViewHolder(val productItemBinding: ProductItemBinding) :
         RecyclerView.ViewHolder(productItemBinding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -25,6 +29,13 @@ class ProductAdapter : RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = products[position]
         holder.productItemBinding.product = data
+
+        holder.productItemBinding.addToFavorite.setOnClickListener {
+            addToFavorite(data) { isFavorite ->
+                data.favorite = isFavorite
+                notifyItemChanged(position)
+            }
+        }
     }
 
     fun updateList(list: List<Product>) {

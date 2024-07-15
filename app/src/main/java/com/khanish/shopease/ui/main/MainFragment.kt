@@ -29,8 +29,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
     FragmentMainBinding::inflate
 ) {
     private val adapter = CategoryAdapter()
-    private val productAdapter = ProductAdapter()
+
     private val viewModel by viewModels<MainViewModel>()
+    private val productAdapter = ProductAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         observeData()
@@ -38,8 +39,16 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
         adapter.selectCategory = {
             viewModel.fetchData(it)
         }
+
+
+
         viewModel.fetchData(null)
 
+        productAdapter.addToFavorite = { product, callback ->
+            viewModel.addProductToDb(product) { isFavorite ->
+                callback(isFavorite)
+            }
+        }
         binding.rvProducts.adapter = productAdapter
         binding.rvCategories.adapter = adapter
         binding.rvCategories.itemAnimator = null
@@ -71,15 +80,14 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
             }
 
             products.observe(viewLifecycleOwner) {
-                if (it.isNotEmpty()){
+                if (it.isNotEmpty()) {
                     productAdapter.updateList(it)
                     binding.notFoundPlace.gone()
                     binding.rvProducts.visible()
-                }else{
+                } else {
                     binding.notFoundPlace.visible()
                     binding.rvProducts.gone()
                 }
-
             }
 
             error.observe(viewLifecycleOwner) {
