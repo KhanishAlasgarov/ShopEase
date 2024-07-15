@@ -83,7 +83,6 @@ class MainViewModel @Inject constructor(
 
 
         val favoriteProductIds = db.getAllProduct().map { it.id }.toSet()
-        Log.e("Favorite Products", db.getAllProduct().toString())
         val response = if (categoryId == null || categoryId == 0) {
             productRepository.getAllProducts()
         } else {
@@ -124,7 +123,6 @@ class MainViewModel @Inject constructor(
                 db.deleteProduct(data)
                 favorite = false
             }
-            Log.e("Favorite Products", db.getAllProduct().toString())
 
             withContext(Dispatchers.Main) {
                 callback(favorite)

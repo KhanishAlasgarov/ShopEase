@@ -8,4 +8,5 @@
     <string name="register_navigateLogin">Already have an account? <u><b><font face="@font/general_sans_500.otf">Log In</font></b></u></string>
     <string name="forgotPassword">Forgot your password? <u><b>Reset your password</b></u></string>
     <string name="Join">Don’t have an account? <b><u>Join</u></b></string>
+    <string name="favoriteText">You don’t have any saved items.\nGo to home and add some.</string>
 </resources>
