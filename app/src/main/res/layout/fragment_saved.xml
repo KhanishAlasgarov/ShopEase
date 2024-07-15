@@ -9,7 +9,7 @@
 
 
     <ImageView
-        android:id="@+id/imageView9"
+        android:id="@+id/backButton"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginStart="24dp"
@@ -26,11 +26,11 @@
         android:text="Saved Items"
         android:textColor="@color/darkGrey_1A"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView9"
+        app:layout_constraintBottom_toBottomOf="@+id/backButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView9" />
+        app:layout_constraintTop_toTopOf="@+id/backButton" />
 
     <ImageView
         android:id="@+id/imageView10"

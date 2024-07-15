@@ -10,6 +10,7 @@ class FavoriteProductAdapter : RecyclerView.Adapter<FavoriteProductAdapter.ViewH
 
     private val products = arrayListOf<Product>()
     lateinit var addToFavorite: (product: Product) -> Unit
+    lateinit var checkCount:(products:ArrayList<Product>) -> Unit
 
     inner class ViewHolder(val productItemFavoriteBinding: ProductItemFavoriteBinding) :
         RecyclerView.ViewHolder(productItemFavoriteBinding.root)
@@ -30,11 +31,15 @@ class FavoriteProductAdapter : RecyclerView.Adapter<FavoriteProductAdapter.ViewH
 
         holder.productItemFavoriteBinding.addToFavorite.setOnClickListener {
             addToFavorite(data)
+            products.remove(data)
+            notifyItemRemoved(position)
+            checkCount(products)
+
         }
 
     }
 
-    fun updateList(list: List<Product>){
+    fun updateList(list: List<Product>) {
         products.clear()
         products.addAll(list)
         notifyDataSetChanged()

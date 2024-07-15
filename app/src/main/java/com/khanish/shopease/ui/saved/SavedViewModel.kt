@@ -69,7 +69,6 @@ class SavedViewModel @Inject constructor(
 
             data?.let {
                 db.deleteProduct(data)
-                fetchProducts()
             }
         }
     }

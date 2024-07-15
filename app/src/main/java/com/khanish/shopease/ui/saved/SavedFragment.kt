@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DefaultItemAnimator
 import com.khanish.shopease.R
 import com.khanish.shopease.base.BaseFragment
 import com.khanish.shopease.databinding.FragmentSavedBinding
@@ -25,9 +27,21 @@ class SavedFragment : BaseFragment<FragmentSavedBinding>(
         observeData()
         viewModel.fetchProducts()
         binding.rvFavorite.adapter = adapter
-
+        binding.rvFavorite.itemAnimator=DefaultItemAnimator()
         adapter.addToFavorite = { product ->
             viewModel.addProductToDb(product)
+        }
+
+        adapter.checkCount = { products ->
+            if (products.isEmpty()) {
+                binding.noSavedItems.visible()
+                binding.rvFavorite.gone()
+            }
+
+        }
+
+        binding.backButton.setOnClickListener {
+            findNavController().navigateUp()
         }
     }
 
