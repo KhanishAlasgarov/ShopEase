@@ -11,6 +11,7 @@ class ProductAdapter :
 
     private val products = arrayListOf<Product>()
     lateinit var addToFavorite: (product: Product, callBack: (Boolean) -> Unit) -> Unit
+    lateinit var navigateToDetail: (id: Int) -> Unit
 
     inner
 
@@ -31,12 +32,22 @@ class ProductAdapter :
         holder.productItemBinding.product = data
 
         holder.productItemBinding.addToFavorite.setOnClickListener {
-            addToFavorite(data) { isFavorite ->
+
+            fun changeItemFavoriteProperty(isFavorite: Boolean) {
                 data.favorite = isFavorite
                 notifyItemChanged(position)
             }
+
+            addToFavorite(data, ::changeItemFavoriteProperty)
         }
+
+        holder.productItemBinding.root.setOnClickListener {
+            navigateToDetail(data.id)
+        }
+
+
     }
+
 
     fun updateList(list: List<Product>) {
         products.clear()

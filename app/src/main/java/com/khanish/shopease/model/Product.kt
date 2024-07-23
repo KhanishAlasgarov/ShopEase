@@ -1,8 +1,6 @@
 package com.khanish.shopease.model
 
-import androidx.room.Entity
-import androidx.room.Ignore
-import androidx.room.PrimaryKey
+
 
 
 data class Product(

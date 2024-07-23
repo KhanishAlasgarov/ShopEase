@@ -37,6 +37,8 @@ class MainViewModel @Inject constructor(
 ) :
     ViewModel() {
 
+    val minValue = MutableLiveData<Int>()
+    val maxValue = MutableLiveData<Int>()
 
     private val _categories = MutableLiveData<List<Category>>()
     val categories: MutableLiveData<List<Category>> get() = _categories
@@ -44,18 +46,23 @@ class MainViewModel @Inject constructor(
     private val _products = MutableLiveData<List<Product>>()
     val products: MutableLiveData<List<Product>> get() = _products
 
-    private val _loading = MutableLiveData<Boolean>()
-    val loading: MutableLiveData<Boolean> get() = _loading
+    private val _productLoading = MutableLiveData<Boolean>()
+    val productLoading: MutableLiveData<Boolean> get() = _productLoading
 
     private val _error = MutableLiveData<String>()
     val error: MutableLiveData<String> get() = _error
 
+    fun setProducts(list: List<Product>) {
+        _products.value = list
+    }
+
     fun fetchData(categoryId: Int?) {
-        _loading.value = true
+
+        _productLoading.value = true
         viewModelScope.launch {
             fetchCategories()
             fetchProducts(categoryId)
-            _loading.value = false
+            _productLoading.value = false
         }
     }
 
@@ -77,6 +84,11 @@ class MainViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun setTextRangeSliderValues(minValue: Int, maxValue: Int) {
+        this.minValue.value = minValue
+        this.maxValue.value = maxValue
     }
 
     private suspend fun fetchProducts(categoryId: Int?) {
@@ -108,7 +120,6 @@ class MainViewModel @Inject constructor(
             }
         }
 
-
     }
 
     fun addProductToDb(product: Product, callback: (Boolean) -> Unit) {
@@ -123,7 +134,6 @@ class MainViewModel @Inject constructor(
                 db.deleteProduct(data)
                 favorite = false
             }
-
             withContext(Dispatchers.Main) {
                 callback(favorite)
             }

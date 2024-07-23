@@ -27,7 +27,8 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:focusable="true"
-        android:paddingVertical="10dp"
+
+        android:paddingTop="10dp"
         app:itemIconTint="@color/bottom_nav_item_color"
         app:itemTextColor="@color/bottom_nav_item_color"
         app:labelVisibilityMode="labeled"

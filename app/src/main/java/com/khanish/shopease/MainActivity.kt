@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         manager.navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.loginFragment, R.id.registerFragment, R.id.splashFragment,
-                R.id.onboardingFragment -> {
+                R.id.onboardingFragment, R.id.detailFragment -> {
                     binding.bottomNavView.gone()
                     binding.bottomBorder.gone()
                 }

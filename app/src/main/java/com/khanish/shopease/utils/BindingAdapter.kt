@@ -1,6 +1,8 @@
 package com.khanish.shopease.utils
 
+import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import androidx.databinding.BindingAdapter
 import com.khanish.shopease.R
 
@@ -12,9 +14,5 @@ fun loadUrl(imageView: ImageView, url: String) {
 
 @BindingAdapter("favoriteImage")
 fun setFavoriteImage(view: ImageView, isFavorite: Boolean) {
-    if (isFavorite) {
-        view.setImageResource(R.drawable.heart_product_icon_red)
-    } else {
-        view.setImageResource(R.drawable.heart_product_icon)
-    }
+    view.changeFavoriteIcon(isFavorite)
 }
