@@ -1,31 +1,23 @@
 package com.khanish.shopease.ui.main
 
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
-
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.getValue
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.khanish.shopease.R
 import com.khanish.shopease.base.BaseFragment
-import com.khanish.shopease.databinding.BottomSheetFilterDialogBinding
 import com.khanish.shopease.databinding.FragmentMainBinding
-import com.khanish.shopease.model.Category
-
 import com.khanish.shopease.utils.CustomItemDecoration
 import com.khanish.shopease.utils.Helper
 import com.khanish.shopease.utils.gone
 import com.khanish.shopease.utils.visible
 import com.shashank.sony.fancytoastlib.FancyToast
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 import kotlin.math.ceil
 
 @AndroidEntryPoint
@@ -36,12 +28,15 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
 
     private val viewModel by viewModels<MainViewModel>()
     private val productAdapter = ProductAdapter()
+    private lateinit var bottomNavigationView: BottomNavigationView
 
 //    lateinit var sheetDialog: BottomSheetFilterDialogBinding
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+
+        bottomNavigationView = requireActivity().findViewById(R.id.bottomNavView)
         adapter = CategoryAdapter()
 //        sheetDialog = Helper.setUpSheetDialog(
 //            layoutInflater,
@@ -53,6 +48,48 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
         observeData()
         setUpRecyclerViews()
         fetchInitialData()
+
+        binding.searchInput.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+
+                val imm =
+                    requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(v.windowToken, 0)
+                v.clearFocus()
+                true
+            } else {
+                false
+            }
+        }
+
+        binding.searchInput.addTextChangedListener { text ->
+            searchAction()
+        }
+
+
+    }
+
+    private fun searchAction() {
+
+        val list = viewModel.products.value
+        val inputValue = binding.searchInput.text.toString().trim()
+
+        list?.let {
+            if (inputValue.isNotEmpty()) {
+
+
+                val newList =
+                    list.filter {
+                        it.name.lowercase().trim().contains(inputValue.lowercase().trim())
+                    }
+
+
+                productAdapter.updateList(newList)
+            } else {
+                productAdapter.updateList(list)
+            }
+        }
+
 
     }
 
@@ -140,11 +177,11 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
                 ).show()
             }
 
-            productLoading.observe(viewLifecycleOwner){
-                if (it){
+            productLoading.observe(viewLifecycleOwner) {
+                if (it) {
                     binding.rvProductsContainer.gone()
                     binding.progressBar2.visible()
-                }else{
+                } else {
                     binding.rvProductsContainer.visible()
                     binding.progressBar2.gone()
                 }

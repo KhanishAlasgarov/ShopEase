@@ -47,7 +47,8 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(
 
     private fun setBackButton() {
         binding.backButton.setOnClickListener {
-            findNavController().popBackStack(R.id.mainFragment, false)
+//            findNavController().popBackStack(R.id.mainFragment, false)
+            findNavController().navigateUp()
         }
     }
 

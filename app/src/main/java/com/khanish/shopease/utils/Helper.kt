@@ -89,25 +89,25 @@ class Helper {
             var minValue: Int? = null
             var maxValue: Int? = null
 
-            binding.btnFilter.setOnClickListener {
-                dialogSheetBinding.rangeSlider.addOnChangeListener { slider, _, _ ->
-                    val values = slider.values
-                    minValue = ceil(values[0]).toInt()
-                    maxValue = ceil(values[1]).toInt()
-                    viewModel.setTextRangeSliderValues(minValue!!, maxValue!!)
-                }
-
-                dialogSheetBinding.applyFilters.setOnClickListener {
-                    applyFilters(viewModel, sortModel, minValue, maxValue)
-                    dialog.dismiss()
-                }
-
-                dialogSheetBinding.btnCloseSheetDialog.setOnClickListener {
-                    dialog.dismiss()
-                }
-
-                dialog.show()
-            }
+//            binding.btnFilter.setOnClickListener {
+//                dialogSheetBinding.rangeSlider.addOnChangeListener { slider, _, _ ->
+//                    val values = slider.values
+//                    minValue = ceil(values[0]).toInt()
+//                    maxValue = ceil(values[1]).toInt()
+//                    viewModel.setTextRangeSliderValues(minValue!!, maxValue!!)
+//                }
+//
+//                dialogSheetBinding.applyFilters.setOnClickListener {
+//                    applyFilters(viewModel, sortModel, minValue, maxValue)
+//                    dialog.dismiss()
+//                }
+//
+//                dialogSheetBinding.btnCloseSheetDialog.setOnClickListener {
+//                    dialog.dismiss()
+//                }
+//
+//                dialog.show()
+//            }
         }
 
         private fun applyFilters(

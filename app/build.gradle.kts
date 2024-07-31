@@ -57,6 +57,7 @@ dependencies {
     implementation(libs.androidx.media3.common)
     implementation(libs.firebase.storage)
     implementation(libs.firebase.firestore)
+    implementation(libs.androidx.ui.geometry.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -103,6 +104,8 @@ dependencies {
 
     implementation(libs.androidx.viewpager2)
     implementation(libs.dotsindicator)
+
+    implementation(libs.material.vversion)
 
 
 
