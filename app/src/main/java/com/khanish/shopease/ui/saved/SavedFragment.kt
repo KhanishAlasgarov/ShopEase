@@ -27,9 +27,17 @@ class SavedFragment : BaseFragment<FragmentSavedBinding>(
         observeData()
         viewModel.fetchProducts()
         binding.rvFavorite.adapter = adapter
-        binding.rvFavorite.itemAnimator=DefaultItemAnimator()
+        binding.rvFavorite.itemAnimator = DefaultItemAnimator()
         adapter.addToFavorite = { product ->
             viewModel.addProductToDb(product)
+        }
+
+        adapter.navigateToDetail = {
+            findNavController().navigate(
+                SavedFragmentDirections.actionSavedFragmentToDetailFragment(
+                    it
+                )
+            )
         }
 
         adapter.checkCount = { products ->

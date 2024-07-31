@@ -9,8 +9,9 @@ import com.khanish.shopease.model.Product
 class FavoriteProductAdapter : RecyclerView.Adapter<FavoriteProductAdapter.ViewHolder>() {
 
     private val products = arrayListOf<Product>()
+    lateinit var navigateToDetail: (id: Int) -> Unit
     lateinit var addToFavorite: (product: Product) -> Unit
-    lateinit var checkCount:(products:ArrayList<Product>) -> Unit
+    lateinit var checkCount: (products: ArrayList<Product>) -> Unit
 
     inner class ViewHolder(val productItemFavoriteBinding: ProductItemFavoriteBinding) :
         RecyclerView.ViewHolder(productItemFavoriteBinding.root)
@@ -28,6 +29,10 @@ class FavoriteProductAdapter : RecyclerView.Adapter<FavoriteProductAdapter.ViewH
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = products[position]
         holder.productItemFavoriteBinding.product = data
+
+        holder.productItemFavoriteBinding.root.setOnClickListener {
+            navigateToDetail(data.id)
+        }
 
         holder.productItemFavoriteBinding.addToFavorite.setOnClickListener {
             addToFavorite(data)
