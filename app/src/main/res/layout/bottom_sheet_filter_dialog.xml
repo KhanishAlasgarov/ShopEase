@@ -6,9 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="30dp"
-    android:paddingBottom="31dp"
     android:background="@drawable/sheet_dialog_bg"
-    android:paddingHorizontal="24.5dp">
+    android:paddingHorizontal="24.5dp"
+    android:paddingBottom="31dp">
 
 
     <ImageView
@@ -167,9 +167,8 @@
         android:layout_height="wrap_content"
 
         android:layout_marginTop="10dp"
-        app:labelBehavior="gone"
-
         app:haloColor="@android:color/transparent"
+        app:labelBehavior="gone"
 
 
         app:layout_constraintEnd_toEndOf="parent"
@@ -183,46 +182,23 @@
         app:trackColorActive="@color/black"
 
         app:trackColorInactive="@color/light_gray"
-        app:trackHeight="4dp"
-         />
-
-    <View
-        android:id="@+id/divider5"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="20dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rangeSlider" />
-
-    <TextView
-        android:id="@+id/textView20"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/general_sans_600"
-        android:text="Size"
-        android:textColor="@color/darkGrey_1A"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/divider5"
-        app:layout_constraintTop_toBottomOf="@+id/divider5" />
+        app:trackHeight="4dp" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/applyFilters"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"
-        android:text="Apply Filters"
         android:backgroundTint="@color/darkGrey_1A"
-        app:cornerRadius="10dp"
         android:fontFamily="@font/general_sans_500"
-        android:textSize="16sp"
-        android:textColor="@color/white"
         android:paddingVertical="16dp"
+        android:text="Apply Filters"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:cornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView20" />
+        app:layout_constraintTop_toBottomOf="@+id/rangeSlider" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

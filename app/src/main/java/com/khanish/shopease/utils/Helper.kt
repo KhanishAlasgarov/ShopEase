@@ -12,6 +12,7 @@ import com.khanish.shopease.R
 import com.khanish.shopease.databinding.BottomSheetFilterDialogBinding
 import com.khanish.shopease.databinding.FragmentMainBinding
 import com.khanish.shopease.databinding.LoadingBinding
+import com.khanish.shopease.model.Product
 import com.khanish.shopease.model.SortModel
 import com.khanish.shopease.model.SortType
 import com.khanish.shopease.ui.main.CategoryAdapter
@@ -49,7 +50,6 @@ class Helper {
             val dialog = BottomSheetDialog(context)
             val dialogSheetBinding = BottomSheetFilterDialogBinding.inflate(layoutInflater)
 
-            setUpRecyclerView(dialogSheetBinding)
             setUpFilterButton(binding, dialog, dialogSheetBinding, viewModel)
             observeViewModel(dialogSheetBinding, viewModel, viewLifecycleOwner)
 
@@ -60,7 +60,19 @@ class Helper {
             return dialogSheetBinding
         }
 
-        private fun setUpRecyclerView(dialogSheetBinding: BottomSheetFilterDialogBinding) {
+
+        private fun setUpFilterButton(
+            binding: FragmentMainBinding,
+            dialog: BottomSheetDialog,
+            dialogSheetBinding: BottomSheetFilterDialogBinding,
+            viewModel: MainViewModel
+        ) {
+
+            var sortModel: SortModel? = null
+            var minValue: Int? = null
+            var maxValue: Int? = null
+
+
             val adapter = SortAdapter().apply {
                 updateList(
                     listOf(
@@ -72,42 +84,41 @@ class Helper {
                 )
             }
 
-            adapter.selectedSortModel = {
-                Log.e("Salam", it.toString())
+            adapter.selectedSortModel = { it ->
+                sortModel = it
             }
             dialogSheetBinding.recyclerView.itemAnimator = null
             dialogSheetBinding.recyclerView.adapter = adapter
-        }
+            dialogSheetBinding.recyclerView.addItemDecoration(
+                CustomItemDecoration(
+                    8
+                )
+            )
 
-        private fun setUpFilterButton(
-            binding: FragmentMainBinding,
-            dialog: BottomSheetDialog,
-            dialogSheetBinding: BottomSheetFilterDialogBinding,
-            viewModel: MainViewModel
-        ) {
-            val sortModel: SortModel? = null
-            var minValue: Int? = null
-            var maxValue: Int? = null
+            binding.btnFilter.setOnClickListener {
+                adapter.resetSelectedPosition()
+                dialogSheetBinding.rangeSlider.values = viewModel.rangeSliderValues.value!!
+                dialogSheetBinding.rangeSlider.addOnChangeListener { slider, _, _ ->
 
-//            binding.btnFilter.setOnClickListener {
-//                dialogSheetBinding.rangeSlider.addOnChangeListener { slider, _, _ ->
-//                    val values = slider.values
-//                    minValue = ceil(values[0]).toInt()
-//                    maxValue = ceil(values[1]).toInt()
-//                    viewModel.setTextRangeSliderValues(minValue!!, maxValue!!)
-//                }
-//
-//                dialogSheetBinding.applyFilters.setOnClickListener {
-//                    applyFilters(viewModel, sortModel, minValue, maxValue)
-//                    dialog.dismiss()
-//                }
-//
-//                dialogSheetBinding.btnCloseSheetDialog.setOnClickListener {
-//                    dialog.dismiss()
-//                }
-//
-//                dialog.show()
-//            }
+                    val values = slider.values
+                    minValue = ceil(values[0]).toInt()
+                    maxValue = ceil(values[1]).toInt()
+
+                    viewModel.minValue.value = minValue
+                    viewModel.maxValue.value = maxValue
+                }
+
+                dialogSheetBinding.applyFilters.setOnClickListener {
+                    applyFilters(viewModel, sortModel, minValue, maxValue)
+                    dialog.dismiss()
+                }
+
+                dialogSheetBinding.btnCloseSheetDialog.setOnClickListener {
+                    dialog.dismiss()
+                }
+
+                dialog.show()
+            }
         }
 
         private fun applyFilters(
@@ -116,23 +127,49 @@ class Helper {
             minValue: Int?,
             maxValue: Int?
         ) {
-            if (minValue == null || maxValue == null) return
 
-            viewModel.fetchData(null)
-            var products = viewModel.products.value
-            products?.let {
-                sortModel?.let { sort ->
-                    products = when (sort.type) {
-                        SortType.LowToHigh -> it.sortedBy { it.price }
-                        SortType.HighToLow -> it.sortedByDescending { it.price }
-                        SortType.Relevance, null -> it.shuffled()
-                        SortType.ProductName -> it.sortedBy { it.name }
+
+            val products = if (viewModel.searchedProducts.value != null) {
+                viewModel.searchedProducts.value
+            } else {
+                viewModel.products.value
+            }
+
+            products?.let { productsList ->
+                var newProductList = emptyList<Product>()
+
+                if (sortModel != null) {
+                    when (sortModel.type) {
+                        SortType.LowToHigh -> {
+                            newProductList = productsList.sortedBy { i -> i.price }
+
+                        }
+                        SortType.HighToLow -> {
+                            newProductList = productsList.sortedByDescending { i -> i.price }
+                        }
+
+                        SortType.Relevance -> {
+                            newProductList = productsList.shuffled()
+                        }
+
+                        SortType.ProductName -> {
+                            newProductList = productsList.sortedBy { i -> i.name }
+                        }
+
+                    }
+                }else{
+                    newProductList = productsList.shuffled()
+                }
+
+                minValue?.let { min ->
+                    maxValue?.let { max ->
+                        newProductList = newProductList.filter { filterValue ->
+                            filterValue.price >= min && filterValue.price <= max
+                        }
                     }
                 }
-                products = it.filter {
-                    it.price > minValue.toFloat() && it.price < maxValue.toFloat()
-                }
-                viewModel.setProducts(it)
+
+                viewModel.filteredData.value = newProductList
             }
         }
 
@@ -142,11 +179,22 @@ class Helper {
             viewLifecycleOwner: LifecycleOwner
         ) {
             viewModel.minValue.observe(viewLifecycleOwner) {
+
                 dialogSheetBinding.minValue.text = it.toString()
+
+
             }
 
             viewModel.maxValue.observe(viewLifecycleOwner) {
                 dialogSheetBinding.maxValue.text = it.toString()
+
+            }
+
+            viewModel.rangeSliderValues.observe(viewLifecycleOwner) { values ->
+                dialogSheetBinding.rangeSlider.valueFrom = values[0]
+                dialogSheetBinding.rangeSlider.valueTo = values[1]
+                dialogSheetBinding.rangeSlider.values = values
+
             }
         }
     }

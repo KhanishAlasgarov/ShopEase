@@ -5,13 +5,17 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+
+
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.khanish.shopease.R
 import com.khanish.shopease.base.BaseFragment
+import com.khanish.shopease.databinding.BottomSheetFilterDialogBinding
 import com.khanish.shopease.databinding.FragmentMainBinding
+import com.khanish.shopease.model.Product
 import com.khanish.shopease.utils.CustomItemDecoration
 import com.khanish.shopease.utils.Helper
 import com.khanish.shopease.utils.gone
@@ -30,21 +34,21 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
     private val productAdapter = ProductAdapter()
     private lateinit var bottomNavigationView: BottomNavigationView
 
-//    lateinit var sheetDialog: BottomSheetFilterDialogBinding
+    lateinit var sheetDialog: BottomSheetFilterDialogBinding
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-
+        binding.rvProducts.itemAnimator = null
         bottomNavigationView = requireActivity().findViewById(R.id.bottomNavView)
         adapter = CategoryAdapter()
-//        sheetDialog = Helper.setUpSheetDialog(
-//            layoutInflater,
-//            requireContext(),
-//            binding,
-//            viewModel,
-//            viewLifecycleOwner
-//        )
+        sheetDialog = Helper.setUpSheetDialog(
+            layoutInflater,
+            requireContext(),
+            binding,
+            viewModel,
+            viewLifecycleOwner
+        )
         observeData()
         setUpRecyclerViews()
         fetchInitialData()
@@ -82,10 +86,19 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
                     list.filter {
                         it.name.lowercase().trim().contains(inputValue.lowercase().trim())
                     }
-
-
+                productAdapter.updateList(newList)
+                if (newList.isNotEmpty()) {
+                    binding.notFoundPlace.gone()
+                    binding.rvProducts.visible()
+                } else {
+                    binding.notFoundPlace.visible()
+                    binding.rvProducts.gone()
+                }
+                viewModel.searchedProducts.value = newList
+                setRangeSlider(newList)
                 productAdapter.updateList(newList)
             } else {
+                viewModel.searchedProducts.value = null
                 productAdapter.updateList(list)
             }
         }
@@ -136,28 +149,27 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
 
     }
 
-    private fun observeData() {
-        val dialog = Helper.setSignUpDialog(layoutInflater, requireContext())
-        with(viewModel) {
+    private fun setRangeSlider(products: List<Product>) {
+        val data = products.maxOf { it.price }
+        val minValue = 0.toFloat()
+        val maxValue = ceil(data).toInt().toFloat()
 
+        viewModel.minValue.value = minValue.toInt()
+        viewModel.maxValue.value = maxValue.toInt()
+        viewModel.rangeSliderValues.value = arrayListOf(minValue, maxValue)
+    }
+
+    private fun observeData() {
+        with(viewModel) {
             categories.observe(viewLifecycleOwner) {
                 adapter.updateList(it)
             }
 
             products.observe(viewLifecycleOwner) {
-                productAdapter.updateList(it)
+
                 if (it.isNotEmpty()) {
 
-                    val data = it.maxOf { it.price }
-                    val minValue = 0.toFloat()
-                    val maxValue = ceil(data).toInt().toFloat()
-
-//                    sheetDialog.rangeSlider.valueFrom = minValue
-//                    sheetDialog.rangeSlider.valueTo = maxValue
-//                    sheetDialog.rangeSlider.values = listOf(minValue, maxValue)
-//                    sheetDialog.minValue.text = minValue.toString()
-//                    sheetDialog.maxValue.text = maxValue.toString()
-
+                    setRangeSlider(it)
                     productAdapter.updateList(it)
                     binding.notFoundPlace.gone()
                     binding.rvProducts.visible()
@@ -165,6 +177,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
                     binding.notFoundPlace.visible()
                     binding.rvProducts.gone()
                 }
+            }
+            filteredData.observe(viewLifecycleOwner) {
+
+                productAdapter.updateList(it)
             }
 
             error.observe(viewLifecycleOwner) {

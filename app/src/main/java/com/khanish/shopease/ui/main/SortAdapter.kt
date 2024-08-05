@@ -14,7 +14,7 @@ class SortAdapter : RecyclerView.Adapter<SortAdapter.ViewHolder>() {
     private val sortModels = arrayListOf<SortModel>()
     lateinit var selectedSortModel: (sortModel: SortModel) -> Unit
 
-    private var selectedPosition: Int = 0
+   private var selectedPosition: Int = 0
 
     inner class ViewHolder(val sortItemBinding: SortItemBinding) :
         RecyclerView.ViewHolder(sortItemBinding.root)
@@ -67,5 +67,12 @@ class SortAdapter : RecyclerView.Adapter<SortAdapter.ViewHolder>() {
         sortModels.clear()
         sortModels.addAll(list)
         notifyDataSetChanged()
+    }
+
+    fun resetSelectedPosition() {
+        val previousSelectedPosition = selectedPosition
+        selectedPosition = 0
+        notifyItemChanged(previousSelectedPosition)
+        notifyItemChanged(selectedPosition)
     }
 }

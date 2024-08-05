@@ -49,12 +49,14 @@ class MainViewModel @Inject constructor(
     private val _productLoading = MutableLiveData<Boolean>()
     val productLoading: MutableLiveData<Boolean> get() = _productLoading
 
+    val filteredData = MutableLiveData<List<Product>>()
+    val rangeSliderValues = MutableLiveData<List<Float>>()
+    val searchedProducts = MutableLiveData<List<Product>?>()
+
+
     private val _error = MutableLiveData<String>()
     val error: MutableLiveData<String> get() = _error
 
-    fun setProducts(list: List<Product>) {
-        _products.value = list
-    }
 
     fun fetchData(categoryId: Int?) {
 
@@ -86,10 +88,6 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun setTextRangeSliderValues(minValue: Int, maxValue: Int) {
-        this.minValue.value = minValue
-        this.maxValue.value = maxValue
-    }
 
     private suspend fun fetchProducts(categoryId: Int?) {
 
