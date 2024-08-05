@@ -18,7 +18,7 @@ object RoomDBModule {
     @Provides
     @Singleton
     fun provideRoomDb(@ApplicationContext applicationContext: Context): ShopEaseDB {
-        return Room.databaseBuilder(applicationContext, ShopEaseDB::class.java, "ShopEaseDB2")
+        return Room.databaseBuilder(applicationContext, ShopEaseDB::class.java, "ShopEase_DB")
             .build()
     }
 

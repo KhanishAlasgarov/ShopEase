@@ -4,16 +4,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.khanish.shopease.local.ShopEaseDao
-import com.khanish.shopease.model.Product
-import com.khanish.shopease.model.ProductEntity
+import com.khanish.shopease.model.Product 
 import com.khanish.shopease.remote.NetworkResource
 import com.khanish.shopease.repository.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import javax.inject.Inject
+import kotlinx.coroutines.launch 
+import javax.inject.Inject  
 
 @HiltViewModel
 class SavedViewModel @Inject constructor(

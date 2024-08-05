@@ -47,7 +47,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(
         viewModel.getProductById(id)
         setBackButton()
         setFavoriteButton()
-        setAddToBasketButton()
+        setAddToBasketButton(id)
     }
 
     private fun setFavoriteButton() {
@@ -63,7 +63,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(
         }
     }
 
-    private fun setAddToBasketButton() {
+    private fun setAddToBasketButton(id: Int) {
 
         binding.addToCart.setOnClickListener {
             if (size == null) {

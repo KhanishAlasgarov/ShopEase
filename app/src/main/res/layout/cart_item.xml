@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="product"
+            type="com.khanish.shopease.model.BasketUiModel" />
+
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/white"
+        app:strokeColor="@color/light_grey_E6">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="14dp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cartImageContainer"
+                app:strokeWidth="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/imageView14"
+                    android:scaleType="center"
+                    load_url="@{product.imageUrl}"
+                    android:layout_width="83dp"
+                    android:layout_height="79dp"  />
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/cartImageContainer"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/cartImageContainer"
+                app:layout_constraintTop_toTopOf="@+id/cartImageContainer">
+
+                <TextView
+                    android:id="@+id/tvProductName"
+                    android:layout_width="0dp"
+                    android:layout_marginEnd="70dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/general_sans_600"
+                    android:maxLines="1"
+                    android:text="@{product.name}"
+                    android:textColor="@color/darkGrey_1A"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toStartOf="@+id/deleteProduct"
+
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvProductName">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/general_sans_400"
+                        android:text="Size "
+                        android:textColor="@color/grey_80"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tvSize"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/general_sans_400"
+                        android:text="@{product.size}"
+                        android:textColor="@color/grey_80"
+                        android:textSize="12sp" />
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <TextView
+                        android:id="@+id/textView29"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/general_sans_600"
+                        android:text="$ "
+                        android:textColor="@color/darkGrey_1A"
+                        android:textSize="14sp" />
+
+
+                    <TextView
+                        android:id="@+id/tvCartTotalPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/general_sans_600"
+                        android:text="@{String.valueOf(product.price)}"
+                        android:textColor="@color/darkGrey_1A"
+                        android:textSize="14sp" />
+
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/deleteProduct"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/cart_trash" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/decreaseCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="3dp"
+                        app:strokeColor="@color/light_grey_CC">
+
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:layout_margin="5dp"
+                            app:srcCompat="@drawable/cart_minus" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <Space
+                        android:layout_width="9dp"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:id="@+id/count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/general_sans_500"
+                        android:text="@{String.valueOf(product.count)}"
+                        android:textColor="@color/darkGrey_1A"
+                        android:textSize="12sp" />
+
+                    <Space
+                        android:layout_width="9dp"
+                        android:layout_height="match_parent" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/increaseCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="3dp"
+                        app:strokeColor="@color/light_grey_CC">
+
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:layout_margin="5dp"
+                            app:srcCompat="@drawable/cart_plus" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

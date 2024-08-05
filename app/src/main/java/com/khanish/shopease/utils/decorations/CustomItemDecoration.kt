@@ -1,4 +1,4 @@
-package com.khanish.shopease.utils
+package com.khanish.shopease.utils.decorations
 
 import android.graphics.Rect
 import android.view.View

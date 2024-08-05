@@ -73,12 +73,12 @@ class DetailViewModel @Inject constructor(
             if (basketItem == null) {
                 db.addProductToBasket(
                     BasketProductEntity(
-                        id, 1, size.size
+                        0, productId = id, count = 1, size = size.size
                     )
                 )
             } else {
-                val count = basketItem.count + 1
-                db.addProductToBasket(BasketProductEntity(id, count, size.size))
+                basketItem.count += 1
+                db.addProductToBasket(basketItem)
             }
 
         }

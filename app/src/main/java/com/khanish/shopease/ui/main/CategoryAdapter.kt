@@ -36,9 +36,9 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
         holder.categoryItemBinding.category = data
 
         holder.categoryItemBinding.categoryCard.setOnClickListener {
-            if (selectedPosition != holder.adapterPosition) {
+            if (selectedPosition != holder.bindingAdapterPosition) {
                 val previousSelectedPosition = selectedPosition
-                selectedPosition = holder.adapterPosition
+                selectedPosition = holder.bindingAdapterPosition
 
                 selectCategory(data.id)
 

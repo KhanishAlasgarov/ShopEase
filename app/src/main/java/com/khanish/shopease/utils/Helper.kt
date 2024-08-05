@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.util.Log
 import android.view.LayoutInflater
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -15,10 +14,9 @@ import com.khanish.shopease.databinding.LoadingBinding
 import com.khanish.shopease.model.Product
 import com.khanish.shopease.model.SortModel
 import com.khanish.shopease.model.SortType
-import com.khanish.shopease.ui.main.CategoryAdapter
 import com.khanish.shopease.ui.main.MainViewModel
 import com.khanish.shopease.ui.main.SortAdapter
-import java.util.Collections
+import com.khanish.shopease.utils.decorations.CustomItemDecoration
 import kotlin.math.ceil
 
 class Helper {

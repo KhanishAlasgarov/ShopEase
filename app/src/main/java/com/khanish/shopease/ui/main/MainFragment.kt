@@ -16,7 +16,7 @@ import com.khanish.shopease.base.BaseFragment
 import com.khanish.shopease.databinding.BottomSheetFilterDialogBinding
 import com.khanish.shopease.databinding.FragmentMainBinding
 import com.khanish.shopease.model.Product
-import com.khanish.shopease.utils.CustomItemDecoration
+import com.khanish.shopease.utils.decorations.CustomItemDecoration
 import com.khanish.shopease.utils.Helper
 import com.khanish.shopease.utils.gone
 import com.khanish.shopease.utils.visible
@@ -38,6 +38,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+
 
         binding.rvProducts.itemAnimator = null
         bottomNavigationView = requireActivity().findViewById(R.id.bottomNavView)

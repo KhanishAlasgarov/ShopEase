@@ -31,7 +31,14 @@ interface ShopEaseDao {
     @Query("Select * from basket_product")
     suspend fun getBasket(): List<BasketProductEntity>
 
-    @Query("Select * from basket_product where id=:id and size=:size")
+    @Query("Select * from basket_product where productId=:id and size=:size")
     suspend fun getBasketItem(id: Int, size: String): BasketProductEntity?
+
+    @Query("Select * from basket_product where id=:id")
+    suspend fun getBasketItemById(id: Int): BasketProductEntity?
+
+
+    @Delete
+    suspend fun deleteProductFromBasket(basketProductEntity: BasketProductEntity)
 
 }
