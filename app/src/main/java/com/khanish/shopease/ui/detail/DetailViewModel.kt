@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.khanish.shopease.local.ShopEaseDao
+import com.khanish.shopease.model.BasketProductEntity
 import com.khanish.shopease.model.Product
 import com.khanish.shopease.model.ProductEntity
 import com.khanish.shopease.model.Size
@@ -39,6 +40,9 @@ class DetailViewModel @Inject constructor(
     private val _error = MutableLiveData<String>()
     val error: MutableLiveData<String> get() = _error
 
+    private val _basketLoading = MutableLiveData<Boolean>()
+    val basketLoading: MutableLiveData<Boolean> get() = _basketLoading
+
     fun addToFavorite() {
 
         viewModelScope.launch(Dispatchers.IO) {
@@ -56,6 +60,25 @@ class DetailViewModel @Inject constructor(
                 withContext(Dispatchers.Main) {
                     _favoriteValue.value = favorite
                 }
+            }
+
+        }
+    }
+
+    fun addToBasket(id: Int, size: Size) {
+        viewModelScope.launch(Dispatchers.IO) {
+
+            val basketItem = db.getBasketItem(id, size.size)
+
+            if (basketItem == null) {
+                db.addProductToBasket(
+                    BasketProductEntity(
+                        id, 1, size.size
+                    )
+                )
+            } else {
+                val count = basketItem.count + 1
+                db.addProductToBasket(BasketProductEntity(id, count, size.size))
             }
 
         }

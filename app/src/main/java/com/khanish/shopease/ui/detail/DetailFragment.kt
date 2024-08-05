@@ -14,10 +14,12 @@ import androidx.navigation.fragment.navArgs
 import com.khanish.shopease.R
 import com.khanish.shopease.base.BaseFragment
 import com.khanish.shopease.databinding.FragmentDetailBinding
+import com.khanish.shopease.model.Size
 import com.khanish.shopease.utils.Helper
 import com.khanish.shopease.utils.changeFavoriteIcon
 import com.khanish.shopease.utils.gone
 import com.khanish.shopease.utils.visible
+import com.shashank.sony.fancytoastlib.FancyToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,17 +28,26 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(
 ) {
     private val args: DetailFragmentArgs by navArgs()
     private val viewModel by viewModels<DetailViewModel>()
-
+    private var size: Size? = null
     private val sizeAdapter = SizeAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         observeData()
         val id = args.id
+
+        sizeAdapter.onClick = {
+            size = it
+        }
+
         binding.rvSizes.adapter = sizeAdapter
+
+
+
         viewModel.getAllSize()
         viewModel.getProductById(id)
         setBackButton()
         setFavoriteButton()
+        setAddToBasketButton()
     }
 
     private fun setFavoriteButton() {
@@ -52,6 +63,32 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(
         }
     }
 
+    private fun setAddToBasketButton() {
+
+        binding.addToCart.setOnClickListener {
+            if (size == null) {
+                FancyToast.makeText(
+                    requireContext(),
+                    "Please select size",
+                    FancyToast.LENGTH_SHORT,
+                    FancyToast.WARNING,
+                    false
+                ).show()
+                return@setOnClickListener
+            }
+
+            viewModel.addToBasket(id, size!!)
+            FancyToast.makeText(
+                requireContext(),
+                "Product added to basket",
+                FancyToast.LENGTH_SHORT,
+                FancyToast.SUCCESS,
+                false
+            ).show()
+
+        }
+    }
+
 
     private fun observeData() {
         val dialog = Helper.setSignUpDialog(layoutInflater, requireContext())
@@ -63,6 +100,8 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(
             favoriteValue.observe(viewLifecycleOwner) {
                 binding.favoriteIcon.changeFavoriteIcon(it)
             }
+
+
 
             sizes.observe(viewLifecycleOwner) {
                 sizeAdapter.updateList(it)
@@ -86,4 +125,6 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(
         binding.viewPager2.adapter = adapter
         binding.wormDotsIndicator.attachTo(binding.viewPager2)
     }
+
+
 }

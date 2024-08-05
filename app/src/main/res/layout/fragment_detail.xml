@@ -220,7 +220,7 @@
                 app:layout_constraintStart_toStartOf="parent">
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/button"
+                    android:id="@+id/addToCart"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
@@ -235,6 +235,7 @@
                     android:textSize="16sp"
                     app:cornerRadius="10dp"
                     app:icon="@drawable/bag"
+
                     app:iconGravity="textStart"
                     app:iconPadding="10dp"
                     app:iconTint="@color/white"
@@ -268,6 +269,7 @@
                     android:textSize="24sp"
                     app:layout_constraintStart_toStartOf="@+id/textView26"
                     app:layout_constraintTop_toBottomOf="@+id/textView26" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView

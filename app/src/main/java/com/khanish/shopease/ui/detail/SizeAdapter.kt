@@ -13,6 +13,7 @@ class SizeAdapter : RecyclerView.Adapter<SizeAdapter.ViewHolder>() {
 
     private val sizes = arrayListOf<Size>()
     private var selectedPosition: Int = -1
+    lateinit var onClick: (size: Size) -> Unit
 
     inner class ViewHolder(val sizeItemBinding: SizeItemBinding) :
         RecyclerView.ViewHolder(sizeItemBinding.root)
@@ -33,6 +34,7 @@ class SizeAdapter : RecyclerView.Adapter<SizeAdapter.ViewHolder>() {
 
 
         holder.sizeItemBinding.root.setOnClickListener {
+            onClick(data)
             if (selectedPosition != holder.adapterPosition) {
                 val previousSelectedPosition = selectedPosition
                 selectedPosition = holder.adapterPosition
