@@ -91,7 +91,6 @@ class MainViewModel @Inject constructor(
 
     private suspend fun fetchProducts(categoryId: Int?) {
 
-
         val favoriteProductIds = db.getAllProduct().map { it.id }.toSet()
         val response = if (categoryId == null || categoryId == 0) {
             productRepository.getAllProducts()

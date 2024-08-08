@@ -19,7 +19,7 @@ object RoomDBModule {
     @Singleton
     fun provideRoomDb(@ApplicationContext applicationContext: Context): ShopEaseDB {
         return Room.databaseBuilder(applicationContext, ShopEaseDB::class.java, "ShopEase_DB")
-            .build()
+            .fallbackToDestructiveMigration().build()
     }
 
     @Provides

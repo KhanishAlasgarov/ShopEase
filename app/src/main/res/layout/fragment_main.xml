@@ -42,6 +42,7 @@
         app:boxCornerRadiusTopEnd="10dp"
         app:boxCornerRadiusTopStart="10dp"
         app:hintEnabled="false"
+        android:theme="@style/TextInputLayoutStyle"
         app:layout_constraintEnd_toStartOf="@+id/btnFilter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDiscover">
@@ -51,6 +52,7 @@
             android:inputType="text"
             android:imeOptions="actionSearch"
             android:layout_width="match_parent"
+
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/search__2_"
             android:drawablePadding="12dp"

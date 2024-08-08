@@ -8,6 +8,7 @@ import androidx.room.Query
 import com.khanish.shopease.model.BasketProductEntity
 import com.khanish.shopease.model.Product
 import com.khanish.shopease.model.ProductEntity
+import com.khanish.shopease.model.RecentSearchItem
 import com.khanish.shopease.model.Size
 
 @Dao
@@ -37,8 +38,27 @@ interface ShopEaseDao {
     @Query("Select * from basket_product where id=:id")
     suspend fun getBasketItemById(id: Int): BasketProductEntity?
 
-
     @Delete
     suspend fun deleteProductFromBasket(basketProductEntity: BasketProductEntity)
+
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addSearchItem(searchItem: RecentSearchItem)
+
+    @Query("Select * from recent_search where text=:text")
+    suspend fun getRecentItemByText(text:String):RecentSearchItem?
+
+    @Query("Select * from recent_search")
+    suspend fun getAllRecentSearchItems(): List<RecentSearchItem>
+
+    @Delete
+    suspend fun deleteSearchItem(searchItem: RecentSearchItem)
+
+    @Query("Select * from recent_search where id=:id")
+    suspend fun getSearchItemById(id: Int): RecentSearchItem?
+
+    @Query("DELETE FROM recent_search")
+    suspend fun deleteAll()
+
 
 }

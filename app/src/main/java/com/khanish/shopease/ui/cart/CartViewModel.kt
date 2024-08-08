@@ -103,7 +103,7 @@ class CartViewModel @Inject constructor(
             val data = db.getBasketItemById(id)
             data?.let {
                 val isDeleted: Boolean
-                if (data.count > 1) {
+                if (data.count != 1) {
                     isDeleted = false
                     data.count--
                     db.addProductToBasket(data)
@@ -128,7 +128,7 @@ class CartViewModel @Inject constructor(
                 data.count++
                 db.addProductToBasket(data)
 
-                withContext(Dispatchers.Main){
+                withContext(Dispatchers.Main) {
                     callback()
                 }
             }

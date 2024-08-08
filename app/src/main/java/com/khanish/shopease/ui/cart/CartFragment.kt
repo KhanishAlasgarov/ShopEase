@@ -1,6 +1,7 @@
 package com.khanish.shopease.ui.cart
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -48,12 +49,19 @@ class CartFragment : BaseFragment<FragmentCartBinding>(
         }
 
         adapter.deacreseProduct = { id, callback ->
-            viewModel.decreaseProduct(id, callback)
-            updateBasketUi(adapter.getList())
+
+            viewModel.decreaseProduct(id) { isDeleted ->
+                callback(isDeleted)
+                updateBasketUi(adapter.getList())
+            }
+
         }
         adapter.increaseProduct = { id, callback ->
-            viewModel.increaseProduct(id, callback)
-            updateBasketUi(adapter.getList())
+            viewModel.increaseProduct(id) {
+                callback()
+                updateBasketUi(adapter.getList())
+            }
+
 
         }
 
@@ -106,6 +114,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>(
         var total = 0.0
 
         for (product in list) {
+            Log.e("${product.name}, ${product.size}", (product.price * product.count).toString())
             total += (product.price * product.count)
         }
 

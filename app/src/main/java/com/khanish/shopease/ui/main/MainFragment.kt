@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-
-
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -36,10 +34,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
 
     lateinit var sheetDialog: BottomSheetFilterDialogBinding
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-
 
         binding.rvProducts.itemAnimator = null
         bottomNavigationView = requireActivity().findViewById(R.id.bottomNavView)
@@ -56,6 +51,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
         fetchInitialData()
 
         binding.searchInput.setOnEditorActionListener { v, actionId, event ->
+
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 
                 val imm =
@@ -78,26 +74,27 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
     private fun searchAction() {
 
         val list = viewModel.products.value
-        val inputValue = binding.searchInput.text.toString().trim()
+        val inputValue = binding.searchInput.text.toString().trim().lowercase()
 
         list?.let {
-            if (inputValue.isNotEmpty()) {
-
-
+            if (!inputValue.isNullOrEmpty()) {
                 val newList =
                     list.filter {
-                        it.name.lowercase().trim().contains(inputValue.lowercase().trim())
+                        it.name.lowercase().trim().contains(inputValue)
                     }
                 productAdapter.updateList(newList)
                 if (newList.isNotEmpty()) {
                     binding.notFoundPlace.gone()
                     binding.rvProducts.visible()
+
+                    setRangeSlider(newList)
                 } else {
                     binding.notFoundPlace.visible()
                     binding.rvProducts.gone()
                 }
+
                 viewModel.searchedProducts.value = newList
-                setRangeSlider(newList)
+
                 productAdapter.updateList(newList)
             } else {
                 viewModel.searchedProducts.value = null
