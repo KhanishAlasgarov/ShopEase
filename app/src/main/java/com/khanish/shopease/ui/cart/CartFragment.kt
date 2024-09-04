@@ -4,15 +4,21 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.khanish.shopease.base.BaseFragment
 import com.khanish.shopease.databinding.FragmentCartBinding
+import com.khanish.shopease.model.BasketProduct
 import com.khanish.shopease.model.BasketUiModel
+import com.khanish.shopease.model.OrderModel
 import com.khanish.shopease.utils.Helper
 import com.khanish.shopease.utils.decorations.BottomSpacingItemDecoration
 import com.khanish.shopease.utils.gone
 import com.khanish.shopease.utils.visible
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 
 @AndroidEntryPoint
 class CartFragment : BaseFragment<FragmentCartBinding>(
@@ -20,12 +26,44 @@ class CartFragment : BaseFragment<FragmentCartBinding>(
 ) {
     private val viewModel: CartViewModel by viewModels()
     private val adapter: BasketProductAdapter = BasketProductAdapter()
+    private var total = 0.0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.getBasketItems()
         observeData()
         setAdapter()
         setBackButton()
+        buttonGoToCheckout()
+    }
+
+    private fun buttonGoToCheckout() {
+        val dialog = Helper.setSignUpDialog(layoutInflater, requireContext())
+        binding.buttonGoToCheckout.setOnClickListener {
+
+            dialog.show()
+            lifecycleScope.launch {
+                delay(2000)
+                dialog.dismiss()
+                fun navigateToMain() {
+                    findNavController().navigate(CartFragmentDirections.actionCartFragmentToMainFragment())
+                }
+                Helper.setCompleteDialog(layoutInflater, requireContext(), ::navigateToMain)
+            }
+            val basketProducts = viewModel.products.value?.mapNotNull {
+                BasketProduct(
+                    it.productId,
+                    "",
+                    it.count,
+                    it.size
+                )
+            }
+            viewModel.orderProducts(
+                orderModel = OrderModel(total, LocalDateTime.now()),
+                basketProducts = basketProducts!!
+            )
+            viewModel.clearBasket()
+
+        }
     }
 
     private fun setBackButton() {
@@ -96,6 +134,8 @@ class CartFragment : BaseFragment<FragmentCartBinding>(
             val vat = (sum * 18 / 100)
             val shipping = (list.count() * 5).toDouble()
             val total = sum + vat + shipping
+            this.total = total
+
 
             binding.tvSubTotal.text = String.format("%.2f", sum)
             binding.tvVat.text = String.format("%.2f", vat)

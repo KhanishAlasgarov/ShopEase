@@ -4,22 +4,29 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
 import com.khanish.shopease.local.ShopEaseDao
+import com.khanish.shopease.model.BasketProduct
 import com.khanish.shopease.model.BasketUiModel
+import com.khanish.shopease.model.OrderModel
 import com.khanish.shopease.remote.NetworkResource
+import com.khanish.shopease.repository.AuthRepository
 import com.khanish.shopease.repository.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
+
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class CartViewModel @Inject constructor(
     private val db: ShopEaseDao,
-    private val productRepository: ProductRepository
+    private val productRepository: ProductRepository,
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
     private val _loading = MutableLiveData<Boolean>()
@@ -42,6 +49,33 @@ class CartViewModel @Inject constructor(
 
     }
 
+    fun orderProducts(orderModel: OrderModel, basketProducts: List<BasketProduct>) {
+
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                orderModel.userId = authRepository.getCurrentUser()?.uid!!
+                val documentReference = Firebase.firestore.collection("Orders")
+                    .add(orderModel).await()
+                val orderId = documentReference.id
+
+                basketProducts.forEach {
+                    it.orderId = orderId
+                    Firebase.firestore.collection("OrderedProducts").add(it).await()
+                }
+                
+            } catch (e: Exception) {
+                Log.w("Firestore", "Error adding document", e)
+            }
+        }
+    }
+
+    fun clearBasket() {
+        viewModelScope.launch(Dispatchers.IO)
+        {
+            db.clearBasket()
+        }
+    }
+
 
     fun getBasketItems() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -58,8 +92,6 @@ class CartViewModel @Inject constructor(
                         networkResource.data?.let { products ->
                             val data = arrayListOf<BasketUiModel>()
                             products.forEach { product ->
-
-
                                 basketProducts.forEach { basketProduct ->
                                     if (product.id == basketProduct.productId) {
                                         data.add(

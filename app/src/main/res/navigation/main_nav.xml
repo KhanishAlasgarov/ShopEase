@@ -19,6 +19,20 @@
             app:popExitAnim="@android:anim/fade_out"
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_out"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashFragment_to_registerFragment"
+            app:destination="@id/registerFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/onboardingFragment"
@@ -89,7 +103,17 @@
         android:id="@+id/accountFragment"
         android:name="com.khanish.shopease.ui.account.AccountFragment"
         android:label="fragment_account"
-        tools:layout="@layout/fragment_account" />
+        tools:layout="@layout/fragment_account" >
+        <action
+            android:id="@+id/action_accountFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_myDetailFragment"
+            app:destination="@id/myDetailFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_myOrderFragment"
+            app:destination="@id/myOrderFragment" />
+    </fragment>
     <fragment
         android:id="@+id/savedFragment"
         android:name="com.khanish.shopease.ui.saved.SavedFragment"
@@ -103,7 +127,11 @@
         android:id="@+id/cartFragment"
         android:name="com.khanish.shopease.ui.cart.CartFragment"
         android:label="fragment_cart"
-        tools:layout="@layout/fragment_cart" />
+        tools:layout="@layout/fragment_cart" >
+        <action
+            android:id="@+id/action_cartFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.khanish.shopease.ui.detail.DetailFragment"
@@ -113,4 +141,14 @@
             android:name="id"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/myDetailFragment"
+        android:name="com.khanish.shopease.ui.myDetails.MyDetailFragment"
+        android:label="fragment_my_detail"
+        tools:layout="@layout/fragment_my_detail" />
+    <fragment
+        android:id="@+id/myOrderFragment"
+        android:name="com.khanish.shopease.ui.myOrders.MyOrderFragment"
+        android:label="fragment_my_order"
+        tools:layout="@layout/fragment_my_order" />
 </navigation>

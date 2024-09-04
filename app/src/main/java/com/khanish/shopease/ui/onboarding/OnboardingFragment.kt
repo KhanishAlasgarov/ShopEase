@@ -1,5 +1,6 @@
 package com.khanish.shopease.ui.onboarding
 
+import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -18,6 +19,18 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.buttonGetStarted.setOnClickListener {
             findNavController().navigate(OnboardingFragmentDirections.actionOnboardingFragmentToRegisterFragment())
+            onBoardingFinished()
         }
+    }
+
+
+    private fun onBoardingFinished() {
+        val sharedPreferences = requireActivity()
+            .getSharedPreferences("MySharedPref", MODE_PRIVATE)
+
+        val editor = sharedPreferences.edit()
+
+        editor.putBoolean("onBoarding", true)
+        editor.apply()
     }
 }

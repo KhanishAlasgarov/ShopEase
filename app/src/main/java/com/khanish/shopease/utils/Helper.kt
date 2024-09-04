@@ -9,8 +9,10 @@ import androidx.lifecycle.LifecycleOwner
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.khanish.shopease.R
 import com.khanish.shopease.databinding.BottomSheetFilterDialogBinding
+import com.khanish.shopease.databinding.CheckoutDialogBinding
 import com.khanish.shopease.databinding.FragmentMainBinding
 import com.khanish.shopease.databinding.LoadingBinding
+import com.khanish.shopease.databinding.LogoutDialogBinding
 import com.khanish.shopease.model.Product
 import com.khanish.shopease.model.SortModel
 import com.khanish.shopease.model.SortType
@@ -28,14 +30,56 @@ class Helper {
         ): AlertDialog {
 
             val dialogBinding = LoadingBinding.inflate(layoutInflater)
-            val dialog = AlertDialog.Builder(requireContext).create();
-
+            val dialog = AlertDialog.Builder(requireContext).create()
 
             dialog.setView(dialogBinding.root)
             dialog.setCancelable(false)
+
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             return dialog
 
+        }
+
+        fun setLogoutDialog(
+            layoutInflater: LayoutInflater,
+            requireContext: Context,
+            logoutProcess: () -> Unit
+        ): AlertDialog {
+            val dialogBinding = LogoutDialogBinding.inflate(layoutInflater)
+            val dialog = AlertDialog.Builder(requireContext).create()
+
+            dialog.setView(dialogBinding.root)
+            dialog.setCancelable(false)
+
+            dialogBinding.logout.setOnClickListener {
+                logoutProcess()
+                dialog.dismiss()
+            }
+
+            dialogBinding.cancel.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            return dialog
+
+        }
+
+        fun setCompleteDialog(
+            layoutInflater: LayoutInflater,
+            requireContext: Context,
+            callback: () -> Unit
+        ) {
+            val dialogBinding = CheckoutDialogBinding.inflate(layoutInflater)
+            val dialog = AlertDialog.Builder(requireContext).create()
+
+            dialogBinding.button.setOnClickListener {
+                callback()
+                dialog.dismiss()
+            }
+            dialog.setView(dialogBinding.root)
+            dialog.setCancelable(false)
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.show()
         }
 
         fun setUpSheetDialog(
@@ -142,6 +186,7 @@ class Helper {
                             newProductList = productsList.sortedBy { i -> i.price }
 
                         }
+
                         SortType.HighToLow -> {
                             newProductList = productsList.sortedByDescending { i -> i.price }
                         }
@@ -155,7 +200,7 @@ class Helper {
                         }
 
                     }
-                }else{
+                } else {
                     newProductList = productsList.shuffled()
                 }
 

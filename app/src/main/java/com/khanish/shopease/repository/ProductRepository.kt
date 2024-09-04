@@ -2,7 +2,6 @@ package com.khanish.shopease.repository
 
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.khanish.shopease.model.Category
 import com.khanish.shopease.model.Product
 import com.khanish.shopease.remote.NetworkResource
 import kotlinx.coroutines.flow.Flow

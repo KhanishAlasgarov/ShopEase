@@ -59,7 +59,8 @@ class RegisterFragment :
         val email = binding.inputEmail.text.toString().trim()
         val password = binding.inputPassword.text.toString().trim()
 
-        viewModel.signUp(email, password)
+        viewModel.signUp(email, password,fullName)
+
 
     }
 

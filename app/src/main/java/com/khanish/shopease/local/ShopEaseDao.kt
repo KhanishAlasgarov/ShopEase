@@ -41,12 +41,14 @@ interface ShopEaseDao {
     @Delete
     suspend fun deleteProductFromBasket(basketProductEntity: BasketProductEntity)
 
+    @Query("Delete from basket_product")
+    suspend fun clearBasket()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addSearchItem(searchItem: RecentSearchItem)
 
     @Query("Select * from recent_search where text=:text")
-    suspend fun getRecentItemByText(text:String):RecentSearchItem?
+    suspend fun getRecentItemByText(text: String): RecentSearchItem?
 
     @Query("Select * from recent_search")
     suspend fun getAllRecentSearchItems(): List<RecentSearchItem>

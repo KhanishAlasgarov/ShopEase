@@ -175,7 +175,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(
         }
 
         binding.searchInput.addTextChangedListener { text ->
-            val value = binding.searchInput.text.toString().trim()
+            val value = binding.searchInput.text.toString().trim().lowercase()
             val products = viewModel.products.value
             if (!value.isNullOrEmpty()) {
                 val list = products!!.filter {
